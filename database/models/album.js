@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const AlbumSchema = new Schema({
-    title:String,
+    title: String,
     date: Date,
     copiesSold: Number,
     numberTracks: Number,
-    image: String, 
+    image: String,
     revenue: Number
 });
 
