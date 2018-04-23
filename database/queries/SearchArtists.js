@@ -17,7 +17,7 @@ module.exports = (criteria, sortProperty, offset = 0, limit = 20) => {
         .skip(offset)
         .limit(limit);
 
-    function buildQuery (){
+    function buildQuery() {
         let query = {}
         if (criteria.age) {
             query.age = {
@@ -31,15 +31,20 @@ module.exports = (criteria, sortProperty, offset = 0, limit = 20) => {
                 $lte: criteria.yearsActive.max
             };
         }
+
+        if (criteria.name) {
+            query.$text = { $search: criteria.name };
+        }
         return query;
     }
 
-    return Promise.all([query, Artist.count()])
+    return Promise.all([query, Artist.find(buildQuery()).count()])
         .then((results) => {
             return {
                 all: results[0],
                 count: results[1],
                 skip: offset,
+                offset: offset,
                 limit: limit
             }
         });
